@@ -1,4 +1,7 @@
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class JDBCtest1 {
 
@@ -21,15 +24,45 @@ public class JDBCtest1 {
             connection = DriverManager.getConnection(URL,Username,password);
 
             //запрос на создание таблицы
-          /* SQL = "CREATE TABLE  (PersonID int, FirstName varchar(255), City varchar(255));";*/
+          SQL = "CREATE TABLE datan (PersonID int, FirstName varchar(255), City varchar(255));";
+          sql = connection.createStatement();
+          sql.execute(SQL);
 
-            //запрос на добавление в таблицу
-           SQL = "INSERT INTO persons (personid, firstname, city)"
-                    + "VALUES ('5', 'Дмитрий', 'Калуга');";
 
-            sql = connection.createStatement();
 
-            sql.execute(SQL);
+            List<String> cities = new ArrayList<>();
+            cities.add("Москва");
+            cities.add("Калуга");
+            cities.add("Волгоград");
+            cities.add("Питер");
+            cities.add("Воронеж");
+            cities.add("Ростов");
+            cities.add("Иркутск");
+            cities.add("Калуга");
+            cities.add("Москва");
+            cities.add("Калуга");
+
+            List<String> names = new ArrayList<>();
+            names.add("Вадим");
+            names.add("Анатолий");
+            names.add("Эдуард");
+            names.add("Дмитрий");
+            names.add("Андрей");
+            names.add("Вадим");
+            names.add("Петр");
+            names.add("Влад");
+            names.add("Ашот");
+            names.add("Карен");
+
+            for (int i = 0; i < 10; i++) {
+                String city = cities.get(i);
+                String name = names.get(i);
+                //запрос на добавление в таблицу
+                SQL = String.format("INSERT INTO datan (personid, firstname, city)"
+                        + "VALUES ('%s', '%s', '%s')", i, name, city );
+
+                sql.execute(SQL);
+            }
 
         }  catch (Exception e){
             e.printStackTrace();

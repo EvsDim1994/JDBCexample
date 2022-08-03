@@ -1,6 +1,9 @@
+import java.awt.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
-public class JDBCtest2 {
+public class JDBCtest3 {
     private static Connection connection = null;
     //ввести адрес БД + добавить драйвера через Open Module Setting
     private static String URL = "jdbc:postgresql://localhost/postgres";
@@ -12,36 +15,26 @@ public class JDBCtest2 {
     public static void main(String[] args) throws SQLException {
         Statement sql = null;
         ResultSet result = null;
-        String valueC = "";
-        String valueN = "";
+        String value = "";
         String SQL = "";
 
         try {
             System.out.println("Соединение с БД");
-            connection = DriverManager.getConnection(URL,Username,password);
+            connection = DriverManager.getConnection(URL, Username, password);
 
-            //запрос на создание таблицы
-            /* SQL = "CREATE TABLE  (PersonID int, FirstName varchar(255), City varchar(255));";*/
-
-            //запрос на добавление в таблицу
-            SQL = "select *  from datan";
+            for (int i = 0; i < 3; i++){
+                String city = "Челябинск";
+            SQL = String.format("update datan"
+                    + " set city = \'%s\'", city)
+                    + " where city = \'Москва\' and personid between 0 and 10";
 
             sql = connection.createStatement();
-
-            result = sql.executeQuery(SQL);
-
-            while (result.next()){
-                valueN = result.getString("firstname");
-                valueC = result.getString("city");
-
-                System.out.println(valueN + " " + valueC);
-
+            sql.execute(SQL);
             }
 
-        }  catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             connection.close();
             System.out.println("Соединение закрыто");
         }
